@@ -1,4 +1,4 @@
-🚧 Copied from [Notes on 0.100](https://dev.wgao19.cc/2019-06-13__flow-0.100/), needs refinement and revision.
+🚧 Copied from [Notes on 0.100](https://dev.wgao19.cc/2019-06-13__flow-0.100/), needs refinement and revision, [issue #2](https://github.com/wgao19/flow-notes/issues/2).
 
 ## React component types
 
