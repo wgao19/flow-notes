@@ -1,6 +1,6 @@
 🚧 Copied from [Notes on 0.100](https://dev.wgao19.cc/2019-06-13__flow-0.100/), needs refinement and revision, [issue #2](https://github.com/wgao19/flow-notes/issues/2).
 
-## React component types
+## React Component Types
 
 
 There are a bunch of changes around React library definitions. And so it's a good chance to take a step back and look at what they are in all.
