@@ -1,4 +1,4 @@
-## Callable properties and function statics
+## Callable Properties and Function Statics
 
 You can annotate functions as callable objects, i.e.,
 
