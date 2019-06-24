@@ -5,6 +5,12 @@
 🚧 This repo is a work in progress. 
 - [Umbrella issue](https://github.com/wgao19/flow-notes/issues/1)
 
+## Contributing
+
+[Questions](https://github.com/wgao19/flow-notes/issues/new?assignees=&labels=question&template=question.md) are always welcome!
+
+Currently, I am still in the process of organizing my notes, after setting up an initial structure I'd like to invite more people to learn and share together.
+
 ## Content
 
 - Guides around upgrading past 0.85, annotating connect (external links)
