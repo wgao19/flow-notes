@@ -14,12 +14,12 @@ Currently, I am still in the process of organizing my notes, after setting up an
 
 ## Notes
 
-- [Basics](./basics)
+- Basics
   - [Exact v.s. sealed](./basics/exact-vs-sealed.md)
-- [React](./react)
+- React
   - [React component types](./react/react-component-types.md)
   - [Annotating connected components](./react/annotating-connected-components.md)
-- [Advanced](./advanced)
+- Advanced
   - [Callable properties and function statics](./advanced/callable-properties-and-function-statics.md)
 
 ## Try Flow bookmarklets
