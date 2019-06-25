@@ -19,6 +19,7 @@ Currently, I am still in the process of organizing my notes, after setting up an
 - React
   - [React component types](./react/react-component-types.md)
   - [`React.memo`](./react/react-memo.md)
+  - [`React.lazy`](./react/react-lazy.md)
   - [Annotating connected components](./react/annotating-connected-components.md)
 - Advanced
   - [Callable properties and function statics](./advanced/callable-properties-and-function-statics.md)
