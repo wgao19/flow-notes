@@ -62,5 +62,5 @@ function App() {
 
 References
 ---
-- [Update React.memo and React.lazy to account for refs](https://github.com/facebook/flow/commit/76b78fa56b06e2e958c5a981271632663c26cd42) in [v0.101](https://github.com/facebook/flow/releases/tag/v0.101.0)
-- [React.memo](https://reactjs.org/docs/react-api.html#reactmemo)
+- [Update React.memo and React.lazy to account for refs](https://github.com/facebook/flow/commit/76b78fa56b06e2e958c5a981271632663c26cd42), updated in [v0.101](https://github.com/facebook/flow/releases/tag/v0.101.0)
+- [React.memo docs](https://reactjs.org/docs/react-api.html#reactmemo)
