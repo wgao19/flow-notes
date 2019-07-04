@@ -1,3 +1,5 @@
+# Annotating Higher Order Components
+ 
 ## Revisiting higher order components
 
 For the scope of this context, I'd like to consider higher order components as *function that takes a component A, and returns a component B which instantiates component A with certain modifications*. 
