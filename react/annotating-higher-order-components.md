@@ -142,7 +142,7 @@ export default (
 ## Take note
 
 - Spreading is tricky in Flow. To avoid complexity, using exact objects for component props is highly recommended.
-- Available from v0.89, `React.AbstractComponent` is the most abstract representation of a React component. It allows us to annotate our components with `Props` and optionally an `Instance`.
+- Available from v0.89, `React.AbstractComponent` ([link to notes](./react-component-types.md#reactabstractcomponent)) is the most abstract representation of a React component. It allows us to annotate our components with `Props` and optionally an `Instance`. 
 
 ## Links
 
