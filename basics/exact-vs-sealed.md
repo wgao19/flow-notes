@@ -14,6 +14,8 @@ sealed.bar = 'bar' // error
 const { foo, bar } = sealed // error
 ```
 
+Currently, objects are by default sealed and inexact. However, Flow is on [the roadmap of migrating to by default exact](https://medium.com/flow-type/on-the-roadmap-exact-objects-by-default-16b72933c5cf).
+
 For functions that expect sealed objects, you can still pass in objects with extra props.
 
 ```js
@@ -53,3 +55,8 @@ function badUsingSealed({ foo, bar }: Sealed) { // error after 0.100
 ```
 
 - [Try Flow](https://flow.org/try/#0C4TwDgpgBAyhCGAbCATKBeKBvKAzA9vgFxQDOwATgJYB2A5lAL4DcAUKJFAKIAe8AxsAzYAPnkIly1elBEtWrfvhrkyCZGkxZWUccSgByAvgOtGrUutQA6AEbwKwg-YoHmUAPQeoEChXwUisqqOMYANFAuTMKWSKjuXj5+AQq4AK40glTKUGmktHRwcSgAFDwkRRoAlNg6nt4o+BCkUMAAFgWkZqx5BZWoJaEShsYGES4kzg4GTFUJ3vgA1qkZWTm99LwCwGUkW4I12rqJjc2tHfRd5ht0+ztD+kaEY5EOky4zjHMAkIm+-oFWCdmpQ0oI0tIGDl0plgNkaFAwA54ABbCDAXysGFrBF0QgoACq+Xo-VKDyYFSsKEO9SgSzqJyaLXanTMbCB3lwVB4qCgtCgAAZrABGAUCrGrOE5eyE4mFKmDPTjBwU2BUml-ZKOeC4DGOIWi8XHBpM86s8xAA)
+
+
+References
+---
+- [On the Roadmap: Exact Objects by Default](https://medium.com/flow-type/on-the-roadmap-exact-objects-by-default-16b72933c5cf)
