@@ -44,12 +44,12 @@ const purrs = {
   insane: "prrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
 };
 
-/** recommend using sealed (default) and exact (will be default) objects */
-type Kitten = {|
+type Kitten = {| // recommend using sealed and exact objects
+
   /** basic fields */
+  
   name1: string,
-  /** disjoint union for more refined typing */
-  name2:
+  name2: // disjoint union for more refined typing
     | "Simba"
     | "Mufasa"
     | "Nala"
@@ -59,53 +59,38 @@ type Kitten = {|
     | "Kiara"
     | "Kovu"
     | "Vitani",
-
-  /** type alias for easier reuse and readability */
-  name3: Name,
+  name3: Name, // type alias for easier reuse and readability
+  
   age: number,
+  
   gender: $values<GENDER>, // 'male' | 'female'
+  
   purrs: $keys<typeof purrs>, // 'brief' | 'normal' | 'long' | 'insane'
 
   /** function fields */
-  /** not recommended because parameters and returns are not restricted */
-  purr1: Function,
-  /** likely a typo, did you mean () => void? */
-  purr2: () => {},
+  
+  purr1: Function, // not recommended because parameters and returns are not restricted
+  purr2: () => {}, // likely a typo, did you mean () => void?
 
-  /**
-   * (very common)
-   * a function that doesn't take nor return anything
-   */
-  purr3: () => void,
-  /**
-   * (very common)
-   * a function that takes something but doesn't return anything
-   */
-  purr4: string => void,
-  /** use named parameter for better readability */
-  purr5: (name: string) => boolean,
+  purr3: () => void, // (very common) a function that doesn't take nor return anything
+  purr4: string => void, // (very common)
+  purr5: (name: string) => boolean, // (very common) use named parameter for better readability
 
   /** object fields */
-  /** not recommended */
-  mane1: Object,
-  /** not recommended: not even sealed, nearly the same as any */
-  mane2: {},
-  mane3?: {
-    // optional field, meaning this field may or may not exist
-    /** can be a last resort if you really don't know what's going on */
-    [key: string]: any
+  mane1: Object, // not recommended
+  mane2: {}, // not recommended: not even sealed, nearly the same as any
+  mane3?: { // optional field, meaning this field may or may not exist
+    [key: string]: any // can be a last resort if you really don't know what's going on
   },
-  mane4: ?{
-    // nullable, meaning this field can be null or undefined
+  mane4: ?{ // nullable, meaning this field can be null or undefined
     color: string, // (very common) with defined properties
     type: "mane" | "beard" | "mustache"
   },
-  /** array of objects */
-  manes?: ?({
-    // fields can be both optional and nullable
+  
+  manes?: ?({ // fields can be both optional and nullable
     color: string,
     type: "mane" | "beard" | "mustache"
-  }[])
+  }[]) // array of objects
 |};
 ```
 
