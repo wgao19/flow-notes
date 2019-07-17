@@ -82,6 +82,7 @@ type Kitten = {| // recommend using sealed and exact objects
   mane3?: { // optional field, meaning this field may or may not exist
     [key: string]: any // can be a last resort if you really don't know what's going on
   },
+  
   mane4: ?{ // nullable, meaning this field can be null or undefined
     color: string, // (very common) with defined properties
     type: "mane" | "beard" | "mustache"
