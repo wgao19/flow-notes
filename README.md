@@ -63,9 +63,9 @@ type Kitten = {| // recommend using sealed and exact objects
   
   age: number,
   
-  gender: $values<GENDER>, // 'male' | 'female'
+  gender: $Values<GENDER>, // 'male' | 'female'
   
-  purrs: $keys<typeof purrs>, // 'brief' | 'normal' | 'long' | 'insane'
+  purrs: $Keys<typeof purrs>, // 'brief' | 'normal' | 'long' | 'insane'
 
   /** function fields */
   
