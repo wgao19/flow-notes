@@ -14,6 +14,103 @@ Currently, I am still in the process of organizing my notes, after setting up an
 
 ## Notes
 
+### Basic Concepts
+
+https://flow.org/en/docs/lang/
+
+Basic type examples
+
+```js
+type Name =
+  | "Simba"
+  | "Mufasa"
+  | "Nala"
+  | "Sarabi"
+  | "Sarafina"
+  | "Scar"
+  | "Kiara"
+  | "Kovu"
+  | "Vitani";
+
+const GENDER = {
+  MALE: "male",
+  FEMALE: "female"
+};
+
+const purrs = {
+  brief: "prr",
+  normal: "prrr",
+  long: "prrrrr",
+  insane: "prrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+};
+
+/** recommend using sealed (default) and exact (will be default) objects */
+type Kitten = {|
+  /** basic fields */
+  name1: string,
+  /** disjoint union for more refined typing */
+  name2:
+    | "Simba"
+    | "Mufasa"
+    | "Nala"
+    | "Sarabi"
+    | "Sarafina"
+    | "Scar"
+    | "Kiara"
+    | "Kovu"
+    | "Vitani",
+
+  /** type alias for easier reuse and readability */
+  name3: Name,
+  age: number,
+  gender: $values<GENDER>, // 'male' | 'female'
+  purrs: $keys<typeof purrs>, // 'brief' | 'normal' | 'long' | 'insane'
+
+  /** function fields */
+  /** not recommended because parameters and returns are not restricted */
+  purr1: Function,
+  /** likely a typo, did you mean () => void? */
+  purr2: () => {},
+
+  /**
+   * (very common)
+   * a function that doesn't take nor return anything
+   */
+  purr3: () => void,
+  /**
+   * (very common)
+   * a function that takes something but doesn't return anything
+   */
+  purr4: string => void,
+  /** use named parameter for better readability */
+  purr5: (name: string) => boolean,
+
+  /** object fields */
+  /** not recommended */
+  mane1: Object,
+  /** not recommended: not even sealed, nearly the same as any */
+  mane2: {},
+  mane3?: {
+    // optional field, meaning this field may or may not exist
+    /** can be a last resort if you really don't know what's going on */
+    [key: string]: any
+  },
+  mane4: ?{
+    // nullable, meaning this field can be null or undefined
+    color: string, // (very common) with defined properties
+    type: "mane" | "beard" | "mustache"
+  },
+  /** array of objects */
+  manes?: ?({
+    // fields can be both optional and nullable
+    color: string,
+    type: "mane" | "beard" | "mustache"
+  }[])
+|};
+```
+
+<!-- TODO: reorganize the following -->
+
 - Basics
   - [Exact v.s. sealed](./basics/exact-vs-sealed.md)
 - React
