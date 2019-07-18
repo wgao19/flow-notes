@@ -6,19 +6,13 @@
 
 - [Umbrella issue](https://github.com/wgao19/flow-notes/issues/1)
 
-## Contributing
-
-[Questions](https://github.com/wgao19/flow-notes/issues/new?assignees=&labels=question&template=question.md) are always welcome!
-
-Currently, I am still in the process of organizing my notes, after setting up an initial structure I'd like to invite more people to learn and share together.
-
-## Notes
-
-### Basic Concepts
+## Basics
 
 https://flow.org/en/docs/lang/
 
-Basic type examples
+### Objects 
+
+Basic example
 
 ```js
 type Name =
@@ -69,7 +63,7 @@ type Kitten = {| // recommend using sealed and exact objects
 
   /** function fields */
   
-  purr1: Function, // not recommended because parameters and returns are not restricted
+  purr1: Function, // not recommended because Function is now aliased to `any`
   purr2: () => {}, // likely a typo, did you mean () => void?
 
   purr3: () => void, // (very common) a function that doesn't take nor return anything
@@ -131,3 +125,9 @@ type Kitten = {| // recommend using sealed and exact objects
 ### Books
 
 - [Programming TypeScript](https://www.oreilly.com/library/view/programming-typescript/9781492037644/) A practical handbook on TypeScript that also explains the whys and hows behind static type checking well, see also [swyx](https://twitter.com/swyx)'s recommendation [tweet](https://twitter.com/swyx/status/1135525665971695617)
+
+## Contributing
+
+[Questions](https://github.com/wgao19/flow-notes/issues/new?assignees=&labels=question&template=question.md) are always welcome!
+
+Currently, I am still in the process of organizing my notes, after setting up an initial structure I'd like to invite more people to learn and share together.
