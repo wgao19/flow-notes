@@ -6,11 +6,11 @@
 
 - [Umbrella issue](https://github.com/wgao19/flow-notes/issues/1)
 
-## Basics
+# Basics
 
 https://flow.org/en/docs/lang/
 
-### Objects 
+## Objects 
 
 [https://flow.org/en/docs/types/objects/](https://flow.org/en/docs/types/objects/)
 
@@ -120,8 +120,78 @@ const kitten: Kitten = {
 };
 ```
 
+We will proceed to discuss a few behaviors of objects.
 
-### Functions
+### Exactness vs sealed when passing objects to functions
+
+Exact means the object passed in here _must not_ contain extra fields ([link to doc](https://flow.org/en/docs/types/objects/#toc-exact-object-types)).
+
+Sealed, on the other hand, means the object may contain other fields but you may not access them unless you annotate them. When we write an object type with some fields, it is by default _sealed_. Trying to access unannotated field of a sealed object will result in error, regardless of it being exact or not:
+
+```js
+type Sealed = { foo: string }
+
+const sealed = {
+  foo: 'foo',
+}
+sealed.bar = 'bar' // error
+const { foo, bar } = sealed // error
+```
+
+For functions that expect sealed objects, you can still pass in objects with extra props:
+
+```js
+function usingSealed(x: Sealed) {
+  // does things
+}
+usingSealed({ foo: 'foo', bar: 'bar' }) // ok
+```
+
+Not so when the functions are expecting _exact_ objects:
+
+```js
+type Exact = {| foo: string |}
+
+function usingExact(x: Exact) {
+  // does things
+}
+usingExact({ foo: 'foo', bar: 'bar' }) // error
+```
+
+We may access the fields of function parameters by destructuring the object:
+
+```js
+// destructuring on function parameter
+function goodUsingSealed({ foo }: Sealed) { // ok
+  // does things
+}
+```
+
+But since destructuring means accessing the object, we are unable to access extra props to sealed objects (relies on a fix from v0.100):
+
+```js
+// fixed in 0.100
+function badUsingSealed({ foo, bar }: Sealed) { // error after 0.100
+  // does things
+}
+```
+
+- [Try Flow](https://flow.org/try/#0C4TwDgpgBAyhCGAbCATKBeKBvKAzA9vgFxQDOwATgJYB2A5lAL4DcAUKJFAKIAe8AxsAzYAPnkIly1elBEtWrfvhrkyCZGkxZWUccSgByAvgOtGrUutQA6AEbwKwg-YoHmUAPQeoEChXwUisqqOMYANFAuTMKWSKjuXj5+AQq4AK40glTKUGmktHRwcSgAFDwkRRoAlNg6nt4o+BCkUMAAFgWkZqx5BZWoJaEShsYGES4kzg4GTFUJ3vgA1qkZWTm99LwCwGUkW4I12rqJjc2tHfRd5ht0+ztD+kaEY5EOky4zjHMAkIm+-oFWCdmpQ0oI0tIGDl0plgNkaFAwA54ABbCDAXysGFrBF0QgoACq+Xo-VKDyYFSsKEO9SgSzqJyaLXanTMbCB3lwVB4qCgtCgAAZrABGAUCrGrOE5eyE4mFKmDPTjBwU2BUml-ZKOeC4DGOIWi8XHBpM86s8xAA)
+
+
+### Disjoint union
+
+_This section is currently under work in progress._
+
+### Intersection
+
+_This section is currently under work in progress._
+
+### Caveats around object spreading
+
+_This section is currently under work in progress._
+
+## Functions
 
 [https://flow.org/en/docs/types/functions/](https://flow.org/en/docs/types/functions/)
 
@@ -207,11 +277,9 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 ```
 
 
-## More Notes
+# More Notes
 <!-- TODO: reorganize the following -->
 
-- Basics
-  - [Exact v.s. sealed](./basics/exact-vs-sealed.md)
 - React
   - [React component types](./react/react-component-types.md)
   - [`React.memo`](./react/react-memo.md)
@@ -223,7 +291,7 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 
 
 
-## Try Flow bookmarklets
+# Try Flow bookmarklets
 
 - [`React.Config` use case](https://flow.org/try/#0PQKgBAAgZgNg9gdzCYAoAlgWwA5wE4AuyYAhgM5gBKApiQMZFR5yZgDketDbA3KvwQCe2amACyggMItcAO2qyCABWbYKAXjABvVGFIAuMGQJ50sgOYAaXWABGh2QFdMt6nmt66h23DgxastYAvnx0cLLG4lIy4QpEmgAU2KpkhhLSOLGKKnBqAJRg6gB8YAA8ACboAG5FNlrJuWQAdCRBdQ1qTbZtevUpTXRtpcCVNXz8UI6yDOjhYAjoBAAWAGokpiQEsxGlSoZaQZZgK-tBRQk2AOp4JNgi5RlycYY09ARNAIK2xjcMj1kEXa1PKGFaFEqvBifb4mN7-eSKUoAEgAIugoFBdkcVkUSjo9JwCI48LIwAkqut0Jttjk1KCCsUbHpJtMtnN4XFLotVpTqeEyEkUoYlAV8XpxYTiaTStdbvcOYptE1lR0yEElcqKRs2bJaWqwMAinxxWAQqg2qgwhEiOkYgiCFzlh9CvNuWttdsyKVbZl7XqjloSIYfmZzGcEj6noo8glA4Y2EtqDB4GwgnlxtQAB64QhgcrUKAkRwwIgJBklCrVWoASG90V9nO5zpI6gARLI4ERE8m4K27OotABGACs6roA8LMDI1HVhtQw1GRSAA)
 - [Annotating memoized factorial function](https://flow.org/try/#0PTAEAEDMBsHsHcBQiAuBPADgU1AWSwLawCWAXlgCYBiAhgMYqwBOxN0AKpjgLygDeiUKDr0AFlgBc-QaACQAbQB2AVwIAjLEwC6Ules0yAvgBoZ8+SOjQtWgBR6NTAJS7Vj04eR1YigM4pQSHpGFjYpfCIySloGZlYOLlBeRSSAPmkhYkhQWwBCINjQ6AA6ETpxJwyhQOC4tlKxHn5PIRbQLJyCkPiG8qwlLVBc7l5lRQosSGJFSkqBatAmLBRlJhSuupKy8QGjGQ2i3p3FQeSkkdAABlAAflAARlBdUAAqGsL4+1AAWgenGSWKzW7269W2-ROiEMQA)
@@ -232,22 +300,22 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 - [Cannot properly refine "T or generates T" type](https://flow.org/try/#0C4TwDgpgBAKg8gJwOIQHYQQQ2BAzjAHhgD4oBeKACkoEpzSY6AfWAbgCh2AzAV1QGNgASwD2qKMEwBrPIhTosOXHC4xwEIuuKVgALlhy0GbHkJrIxOgG92UKEK5VQkEY+DkyFAOS8BwsV7WtnZQ-GK4IgA2EAB0kSIA5jq0NBx2AL5QEJG40DYhoeFRsfFJwKnB6ezpQA)
 - [Spread v.s. &](https://flow.org/try/#0PQ0gEDyAuAWCmAnAzuAZgSwDbwFDQE8AHecAQXAF5wBvXccAQwC4mA7AgGlwF8BuXPmKkAQlXLgAZLXrgARq0Ydu-WbjBhwAWQLpseQiXABhcWOl0GAY0XLeA3GgCubK9AwB7NuAAqACktwK24GADpwokQPImReVmMAShkGSOjkULleXCA) @nutstick
 
-## Other resources
+# Other resources
 
 - [typescript-vs-flowtype](https://github.com/niieani/typescript-vs-flowtype/)
 
-### Guides
+## Guides
 
 - Upgrading Flow past 0.85, annotating connect
   - [Asking for Required Annotations](https://medium.com/flow-type/asking-for-required-annotations-64d4f9c1edf8)
   - [Quick Note Fixing `connect` FlowType Annotation after 0.89](https://dev.to/wgao19/quick-note-fixing-connect-flowtype-annotation-after-089-joi)
   - [Ville's and Jordan Brown's guide: _Adding Type Parameters to Connect_](https://gist.github.com/jbrown215/f425203ef30fdc8a28c213b90ba7a794)
 
-### Books
+## Books
 
 - [Programming TypeScript](https://www.oreilly.com/library/view/programming-typescript/9781492037644/) A practical handbook on TypeScript that also explains the whys and hows behind static type checking well, see also [swyx](https://twitter.com/swyx)'s recommendation [tweet](https://twitter.com/swyx/status/1135525665971695617)
 
-## Contributing
+# Contributing
 
 [Questions](https://github.com/wgao19/flow-notes/issues/new?assignees=&labels=question&template=question.md) are always welcome!
 
