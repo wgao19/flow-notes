@@ -181,7 +181,7 @@ const Connected = connect<Props, OwnProps, _, _, _, _>(mapStateToProps, mapDispa
 
 ### Annotating nested higher order components with connect
 
-If you are at the unfortunate position where your component is wrapped with nested higher order component, it is probably more difficult to annotate by providing explicit type parameters, as doing so will probably require that you tediously take away props at each layer. It is agian easier to annotate at function return:
+If you are at the unfortunate position where your component is wrapped with nested higher order component, it is probably more difficult to annotate by providing explicit type parameters, as doing so will probably require that you tediously take away props at each layer. It is again easier to annotate at function return:
 
 ```jsx
 type OwnProps = {|
