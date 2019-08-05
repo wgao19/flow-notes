@@ -187,9 +187,53 @@ _This section is currently under work in progress._
 
 _This section is currently under work in progress._
 
-### Caveats around object spreading
+### Spreading inexact objects
 
-_This section is currently under work in progress._
+Because non-exact objects can have any properties other than defined, spreading objects yields the following behavior which may be counter-intuitive (but is reasonable with a bit of thoughts)
+
+- properties from spread becomes optional → because the object where the spread lands originally did not have it
+- properties before spread becomes mixed → receiving from the unknown
+
+```js
+type A = {
+  a: number
+}
+
+type B = {
+  b: number,
+  ...A
+}
+
+// The same as
+
+type B = {
+  a?: number, // every property from spread becomes optional
+  b: mixed // every property before non-exact spread becomes mixed
+};
+To avoid surprises, always spread exact objects.
+```
+
+To avoid surprises, _always spread exact objects_:
+
+```js
+type Appearance = {| // <- exact type
+  eyes: 'black' | 'brown',
+  hair: 'chestnut' | 'coal',
+|};
+type Feature = {  // <- not exact
+  purrs: 'does-not-purr' | 'brief'
+}
+type MyKitty = {
+  ...Appearance,
+  ...$Exact<Feature>,  // <- marks all Feature properties exact
+}
+```
+
+More about this:
+
+- facebook/flow#3534
+
+
 
 ## Functions
 
