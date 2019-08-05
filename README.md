@@ -231,7 +231,7 @@ type MyKitty = {
 
 More about this:
 
-- facebook/flow#3534
+- [facebook/flow#3534](https://github.com/facebook/flow/issues/3534)
 
 
 
