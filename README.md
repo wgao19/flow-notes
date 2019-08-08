@@ -320,6 +320,83 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 }`
 ```
 
+## Adbanced topics
+
+### Tagging
+
+Consider we have a function that takes an object that takes either a value or a function that generates a value. If the input is a generator, we run the generator to get the intended value. This is quite common as we often consider actions and action generators to produce the same semantic meaning.
+
+```js
+function consumesAction<T>(action: T | () => T) {
+  if (typeof action === 'function') {
+    console.log(action());
+    // does other things
+  } else {
+    console.log(action);
+    // does other things
+  }
+}
+```
+
+[Flow Try](https://flow.org/try/#0C4TwDgpgBAKg8gJwOIQHYQQQ2BAzjAHhgD4oBeKACkoEpzSY6AfWAbgCh2AzAV1QGNgASwD2qKABsRAcwCyIAMIiEqAgFVUQ-stTFKfLToBcsRCnRYc+dZu0ridAN7soUIVyqhIIjwbviyQKgAIl4BYTFgpxdXKG1UXBEJCAA6KWl9Wx1aGg5XAF8oCAlcaGdYuLFE5LSZTMMVXJj89nygA).
+
+This is because, `T` as an implicit type generic may itself be a function. And knowing that action is function does not align that with the branch that it is the generator function that yields `T`. 
+
+In this case, consider "tagging" the two branches using disjoint union:
+
+```js
+type ActionOrGenerator<A> =
+  | {tag: 'action', value: A}
+  | {tag: 'generator', value: () => A}
+ 
+function consumesAction<Action>(unicorn: ActionOrGenerator<Action>) {
+  switch (action.tag) {
+    case 'action':
+      console.log(action.value)
+      break
+    case 'generator':
+      console.log(action.value())
+  }
+}
+```
+
+(Courtesy of [this comment](https://dev.to/yawaramin/comment/cdej) by [Yawar Amin](https://twitter.com/yawaramin).)
+
+Tagging is a common technique that can be used to carry over explicit information cross objects.
+
+Consider this case where we have a function that handles two possible types of mysteries:
+
+```js
+type StringType = { targetType: string, target: 'its a string!' };
+type NumberType = { targetType: number, target: 0 };
+ 
+function handle(mystery: StringType | NumberType) {
+  if (typeof mystery.targetType === 'string') {
+    const presumablyAString: string = mystery.target;
+  } else {
+    const presumablyANumber: number = mystery.target;
+  }
+}
+```
+
+It will err because the branched information on `targetType` cannot be carried over to `target`. To achieve the desired type, once again, we may tag the branches with disjoint unions:
+
+```js
+type TaggedStringType = { tag: 'string', targetType: string, target: 'its a string!' };
+type TaggedNumberType = { tag: 'number', targetType: number, target: 0 };
+ 
+function handle(mystery: TaggedStringType | TaggedNumberType) {
+  if (mystery.tag === 'string') {
+    const presumablyAString: string = mystery.target;
+  } else {
+    const presumablyANumber: number = mystery.target;
+  }
+}
+```
+
+[Flow Try](https://flow.org/try/#0C4TwDgpgBAysBOBLAdgcwCrmgXigbymAEN5UJhNIAuKAZwRVQBpCSzgaByRYWqIugzQBCTlAC+AbgBQoSFAByAVwC2AIwjxKOfK1LltNZKo3wWxfRygAGCTOkAzJcgDGwRAHtkUABZFkACYANhAAFCog9JogNHBIaNpQAD6KJpraAJT40lBQiA5QoXIQHgURUfAgAHQW7InYDVCc9PGonFl4OblQLl70UGDwELSqRGpBIACCcYw0LYxQuOXA0TVs5DK54lAQQbTQnd09fcADQyMqYxOTyuqaRmnwi1DLq7UbXeLSX7JYUOhEVBkAIzBJ-XAEYioLjzNCcczrChYOZCZh6dhcHh8ASw1CiOy-eQAoEQAK3Uz1XRQrjGO7weHogzIqC00wIyw0WxSaSOZxuTzePyBELhSIrSo0YnA0EYP4pKWk8npLAdLr5QqvSprVCLRrNVHtbJHXrIfqDYajcZTGUo1rPTXVd7ATYSHZ7A5dXIms3nS3XJXwB50+1it6Il1fcRAA)
+
+Transported from an example in the book _Programming TypeScript_.
 
 # More Notes
 <!-- TODO: reorganize the following -->
