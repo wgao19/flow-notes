@@ -318,7 +318,7 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 }`
 ```
 
-## Adbanced topics
+## Advanced topics
 
 ### Tagging
 
