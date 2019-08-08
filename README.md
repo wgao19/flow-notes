@@ -4,8 +4,6 @@
 
 🚧 This repo is a work in progress.
 
-- [Umbrella issue](https://github.com/wgao19/flow-notes/issues/1)
-
 # Basics
 
 https://flow.org/en/docs/lang/
