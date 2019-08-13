@@ -318,9 +318,295 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 }`
 ```
 
-## Advanced topics
+# Usages with React
 
-### Tagging
+
+Once again, familiarize yourself with usages with React described in the docs, here is a list of some essential questions answered there:
+
+- [How to represent any React node?](https://github.com/facebook/flow/blob/master/website/en/docs/react/types.md#reactnode-)
+- [How to represent an instance of certain component type?](https://github.com/facebook/flow/blob/master/website/en/docs/react/types.md#reactelementtypeof-component-)
+- [What's the most abstract representation of a React component and what is it mostly used for?](https://github.com/facebook/flow/blob/master/website/en/docs/react/types.md#reactabstractcomponentconfig-instance-)
+
+
+To use Flow with React, first import React as default exports:
+
+```js
+import * as React from 'react';
+```
+
+This way, React will contain the necessary type information exported from the library definitions.
+
+We introduce two common React components here.
+
+## `React.AbstractComponent`
+
+_This section is currently under work in progress._
+
+
+## Higher order components
+
+**Note**
+
+Before going into this section, note that with [React Hooks](https://reactjs.org/docs/hooks-intro.html), higher order components may no longer be a preferred pattern. **You should try using hooks first.** And if you are at the unfortunate position where you have to annotate higher order components, such as working with legacy code, etc., the following section may be helpful.
+
+### Annotating the hoc
+
+```jsx
+// makeUnicorn.js
+import * as React from 'react';
+ 
+export type UnicornProps = {|
+  decoration: string,
+|};
+ 
+export default function makeUnicorn<P: UnicornProps>
+  (Creature: React.AbstractComponent<P>): 
+  React.AbstractComponent<$Diff<P, UnicornProps>> {
+  return (props) => <Creature {...props} decoration="spiraling-horn" />;
+}
+```
+
+When using the higher order component, you can import the type of the props injected by this higher order component:
+
+```jsx
+// kittenCorn.js
+import * as React from 'react';
+import makeUnicorn from './makeUnicorn';
+import type { UnicornProps } from './makeUnicorn';
+ 
+type KittenCornProps = {|
+  name: string,
+|} & UnicornProps;
+ 
+const KittenCorn = ({ name, decoration }) => <div>
+  {name}
+  {decoration}
+</div>
+ 
+export default makeUnicorn(KittenCorn);
+```
+
+When we instantiate `KittenCorn`, we no longer need to provide the `decoration` prop.
+
+```jsx
+render(<KittenCorn name="meow" />);
+```
+
+### Annotating components wrapped by hoc by explicitly providing type parameters
+
+```jsx
+// kittenCorn.js
+import * as React from 'react';
+import makeUnicorn from './makeUnicorn';
+import type { UnicornProps } from './makeUnicorn';
+ 
+type KittenCornProps = {|
+  name: string,
+|} & UnicornProps;
+ 
+const KittenCorn = ({ name, decoration }: KittenCornProps) => <div>
+  {name}
+  {decoration}
+</div>
+ 
+export default makeUnicorn<KittenCornProps>(KittenCorn);
+```
+
+### Annotating components wrapped by hoc by casting at export
+
+```jsx
+// kittenCorn.js
+import * as React from 'react';
+import makeUnicorn from './makeUnicorn';
+import type { UnicornProps } from './makeUnicorn';
+ 
+type KittenProps = {|
+  name: string,
+|};
+ 
+const KittenCorn = (
+  { name, decoration }: KittenProps & UnicornProps
+) => <div>
+  {name}
+  {decoration}
+</div>
+ 
+export default (
+  makeUnicorn(KittenCorn): React.AbstractComponent<KittenProps>
+);
+```
+
+
+### Dealing with nested higher order components
+
+```jsx
+// gloryKittenCorn.js
+import * as React from 'react';
+import { compose } from 'redux'; // ¯\_(ツ)_/¯
+import makeUnicorn from './makeUnicorn';
+import type { UnicornProps } from './makeUnicorn';
+import glorifyMane from './glorifyMane';
+import type { ManeProps } from './glorifyMane';
+ 
+type KittenProps = { // OwnProps
+  name: string
+}
+ 
+const GloryKittenCorn = (
+  { name, decoration, mane }: KittenProps & ManeProps & UnicornProps
+) => <React.Fragment>
+  { name }
+  { decoration }
+  { mane }
+</React.Fragment>;
+ 
+export default (
+  compose(
+    makeUnicorn,
+    glorifyMane,
+  )(KittenCorn): React.AbstractComponent<KittenProps>
+)
+```
+
+**Note**
+
+Spreading is tricky in Flow. To avoid complexity, using exact objects for component props is highly recommended.
+
+### Links
+
+- [HOCs as of 0.89.0](https://flow.org/en/docs/react/hoc/#toc-hocs-as-of-0-89-0)
+- [`React.AbstractComponent` docs](https://flow.org/en/docs/react/types/#toc-react-abstractcomponent)
+- [React Higher Order Components in Depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)
+
+## Annotating connected (with Redux) components
+
+To annotate React Redux's connected components, first be familiar with annotating higher order components using `React.AbstractComponent` (discussed in the previous section). 
+
+### Connecting stateless component with `mapStateToProps`
+
+```jsx
+type OwnProps = {|  // use exact object for component props
+  passthrough: number,
+  forMapStateToProps: string,
+|};
+type Props = {|
+  ...OwnProps,
+  fromStateToProps: string
+|};
+const Com = (props: Props) => <div>{props.passthrough} {props.fromStateToProps}</div>
+ 
+type State = {a: number};
+const mapStateToProps = (state: State, props: OwnProps) => {
+  return {
+    fromStateToProps: 'str' + state.a
+  }
+};
+ 
+const Connected = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(Com);
+ 
+ 
+export default connect()(MyComponent);
+```
+
+### Connecting components with `mapDispatchToProps` of action creators
+
+```jsx
+type OwnProps = {|  // use exact object for component props
+  passthrough: number,
+|};
+type Props = {|
+  ...OwnProps,
+  dispatch1: (num: number) => void,
+  dispatch2: () => void
+|};
+class Com extends React.Component<Props> {
+  render() {
+    return <div>{this.props.passthrough}</div>;
+  }
+}
+ 
+const mapDispatchToProps = {
+  dispatch1: (num: number) => {},
+  dispatch2: () => {}
+};
+const Connected = connect<Props, OwnProps, _, _, _, _>(null, mapDispatchToProps)(Com);
+e.push(Connected);
+<Connected passthrough={123} />;
+```
+
+### Connecting components with `mapStateToProps` and `mapDispatchToProps` of action creators
+
+```jsx
+type OwnProps = {|  // use exact object for component props
+  passthrough: number,
+  forMapStateToProps: string
+|};
+type Props = {|
+  ...OwnProps,
+  dispatch1: () => void,
+  dispatch2: () => void,
+  fromMapStateToProps: number
+|};
+class Com extends React.Component<Props> {
+  render() {
+    return <div>{this.props.passthrough}</div>;
+  }
+}
+type State = {a: number}
+type MapStateToPropsProps = {forMapStateToProps: string}
+const mapStateToProps = (state: State, props: MapStateToPropsProps) => {
+  return {
+    fromMapStateToProps: state.a
+  }
+}
+const mapDispatchToProps = {
+  dispatch1: () => {},
+  dispatch2: () => {}
+};
+const Connected = connect<Props, OwnProps, _, _, _, _>(mapStateToProps, mapDispatchToProps)(Com);
+```
+
+### Annotating nested higher order components with `connect`
+
+
+If you are at the unfortunate position where your component is wrapped with nested higher order component, it is probably more difficult to annotate by providing explicit type parameters, as doing so will probably require that you tediously take away props at each layer. It is again easier to annotate at function return:
+
+```jsx
+type OwnProps = {|
+  passthrough: number,
+  forMapStateToProps: string,
+|}
+type Props = {|
+  ...OwnProps,
+  injectedA: string,
+  injectedB: string,
+  fromMapStateToProps: string,
+  dispatch1: (number) => void,
+  dispatch2: () => void,
+|}
+ 
+const Component = (props: Props) => { // annotate the component with all props including injected props
+  /** ... */
+}
+ 
+const mapStateToProps = (state: State, ownProps: OwnProps) => {
+  return { fromMapStateToProps: 'str' + ownProps.forMapStateToProps },
+}
+const mapDispatchToProps = {
+  dispatch1: number => {},
+  dispatch2: () => {},
+}
+ 
+export default (compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withA,
+  withB,
+)(Component): React.AbstractComponent<OwnProps>)  // export the connected component without injected props
+```
+
+# Advanced topics
+
+## Tagging
 
 Consider we have a function that takes an object that takes either a value or a function that generates a value. If the input is a generator, we run the generator to get the intended value. This is quite common as we often consider actions and action generators to produce the same semantic meaning.
 
