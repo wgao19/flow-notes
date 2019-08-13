@@ -4,6 +4,18 @@
 
 🚧 This repo is a work in progress.
 
+Table of contents
+---
+- [Basics](#basics)
+  + [Objects](#objects)
+  + [Functions](#functions)
+- [Usages with React](#usages-with-react)
+  + [React components](#reactabstractcomponent) (_work in progress_)
+  + [Higher order components](#higher-order-components)
+  + [Annotating connected (with Redux) components](#annotating-connected-with-redux-components)
+- [Advanced topics](#advanced-topics)
+  + [Tagging](#tagging)
+
 # Basics
 
 https://flow.org/en/docs/lang/
