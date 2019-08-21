@@ -6,6 +6,17 @@
 
 Table of contents
 ---
+
+[Part I – Learning Flow](#learning-flow)
+---
++ [Learn Flow usages](#learn-flow-usages)
+  + [Flow's tests as examples](#flows-tests-as-examples)
+  + [Flow Typed tests as examples](#flow-typed-tests-as-examples)
++ [Understanding Flow](#understanding-flow)
++ [Advanced](#advanced)
+
+[Part II – Study notes](#study-notes)
+---
 - [Basics](#basics)
   + [Objects](#objects)
   + [Functions](#functions)
@@ -15,12 +26,65 @@ Table of contents
   + [Annotating connected (with Redux) components](#annotating-connected-with-redux-components)
 - [Advanced topics](#advanced-topics)
   + [Tagging](#tagging)
+  
+---
 
-# Basics
+# Learning Flow
+
+> 授人以鱼不如授人以渔
+
+_This section is a work in progress_
+
+## Learn Flow usages
+
+### [Flow's tests as examples](https://github.com/facebook/flow/tree/master/tests)
+
+_This section is a work in progress_
+
+- [Arrays](https://github.com/facebook/flow/tree/master/tests/arrays)
+- React
+  - [`useMemo`](https://github.com/facebook/flow/blob/master/tests/react/useMemo_hook.js)
+
+### [Flow Typed](https://github.com/flow-typed/flow-typed) tests as examples
+
+_This section is a work in progress_
+
+## Understanding Flow
+
+- Flow's [official blog](https://medium.com/flow-type) and a list of well-written articles:
+  - [Coming Soon: Changes to Object Spreads](https://medium.com/flow-type/coming-soon-changes-to-object-spreads-73204aef84e1) you must read this
+- [typescript-vs-flowtype](https://github.com/niieani/typescript-vs-flowtype/)
+
+_Videos_
+
+- [A Deep Dive Into Flow](https://www.youtube.com/embed/VEaDsKyDxkY)
+- [Flow: Static Type Systems At Scale](https://www.youtube.com/embed/M8x0bc81smU?start=765)
+
+_Books_
+
+- [Programming TypeScript](https://www.oreilly.com/library/view/programming-typescript/9781492037644/) A practical handbook on TypeScript that also explains the whys and hows behind static type checking well, see also [swyx](https://twitter.com/swyx)'s recommendation [tweet](https://twitter.com/swyx/status/1135525665971695617)
+
+## Advanced
+
+_Books_
+
+- [Types and Programming Languages](https://mitpress.mit.edu/books/types-and-programming-languages) has a very heavy math start
+- [Advanced Topics in Types and Programming Languages](https://www.cis.upenn.edu/~bcpierce/attapl/)
+
+_Even more_
+
+- [Pottier's course and thesis](https://gitlab.inria.fr/fpottier/mpri-2.4-public/blob/master/README.md) (GitLab repo)
+- [The Essence of ML Type Inference](gallium.inria.fr/~fpottier/publis/emlti-final.pdf) (paper)
+
+---
+
+# Study notes
+
+## Basics
 
 https://flow.org/en/docs/lang/
 
-## Objects 
+### Objects 
 
 [https://flow.org/en/docs/types/objects/](https://flow.org/en/docs/types/objects/)
 
@@ -132,7 +196,7 @@ const kitten: Kitten = {
 
 We will proceed to discuss a few behaviors of objects.
 
-### Exactness vs sealed when passing objects to functions
+#### Exactness vs sealed when passing objects to functions
 
 Exact means the object passed in here _must not_ contain extra fields ([link to doc](https://flow.org/en/docs/types/objects/#toc-exact-object-types)).
 
@@ -189,15 +253,15 @@ function badUsingSealed({ foo, bar }: Sealed) { // error after 0.100
 - [Try Flow](https://flow.org/try/#0C4TwDgpgBAyhCGAbCATKBeKBvKAzA9vgFxQDOwATgJYB2A5lAL4DcAUKJFAKIAe8AxsAzYAPnkIly1elBEtWrfvhrkyCZGkxZWUccSgByAvgOtGrUutQA6AEbwKwg-YoHmUAPQeoEChXwUisqqOMYANFAuTMKWSKjuXj5+AQq4AK40glTKUGmktHRwcSgAFDwkRRoAlNg6nt4o+BCkUMAAFgWkZqx5BZWoJaEShsYGES4kzg4GTFUJ3vgA1qkZWTm99LwCwGUkW4I12rqJjc2tHfRd5ht0+ztD+kaEY5EOky4zjHMAkIm+-oFWCdmpQ0oI0tIGDl0plgNkaFAwA54ABbCDAXysGFrBF0QgoACq+Xo-VKDyYFSsKEO9SgSzqJyaLXanTMbCB3lwVB4qCgtCgAAZrABGAUCrGrOE5eyE4mFKmDPTjBwU2BUml-ZKOeC4DGOIWi8XHBpM86s8xAA)
 
 
-### Disjoint union
+#### Disjoint union
 
 _This section is currently under work in progress._
 
-### Intersection
+#### Intersection
 
 _This section is currently under work in progress._
 
-### Spreading inexact objects
+#### Spreading inexact objects
 
 Because non-exact objects can have any properties other than defined, spreading objects yields the following behavior which may be counter-intuitive (but is reasonable with a bit of thoughts)
 
@@ -256,7 +320,7 @@ More about this:
 
 
 
-## Functions
+### Functions
 
 [https://flow.org/en/docs/types/functions/](https://flow.org/en/docs/types/functions/)
 
@@ -341,7 +405,7 @@ const purrWithAttitudes: PurrWithAttitudes = (name?: string, times?: number) => 
 }`
 ```
 
-# Usages with React
+## Usages with React
 
 
 Once again, familiarize yourself with usages with React described in the docs, here is a list of some essential questions answered there:
@@ -361,18 +425,18 @@ This way, React will contain the necessary type information exported from the li
 
 We introduce two common React components here.
 
-## `React.AbstractComponent`
+### `React.AbstractComponent`
 
 _This section is currently under work in progress._
 
 
-## Higher order components
+### Higher order components
 
 **Note**
 
 Before going into this section, note that with [React Hooks](https://reactjs.org/docs/hooks-intro.html), higher order components may no longer be a preferred pattern. **You should try using hooks first.** And if you are at the unfortunate position where you have to annotate higher order components, such as working with legacy code, etc., the following section may be helpful.
 
-### Annotating the hoc
+#### Annotating the hoc
 
 ```jsx
 // makeUnicorn.js
@@ -415,7 +479,7 @@ When we instantiate `KittenCorn`, we no longer need to provide the `decoration` 
 render(<KittenCorn name="meow" />);
 ```
 
-### Annotating components wrapped by hoc by explicitly providing type parameters
+#### Annotating components wrapped by hoc by explicitly providing type parameters
 
 ```jsx
 // kittenCorn.js
@@ -435,7 +499,7 @@ const KittenCorn = ({ name, decoration }: KittenCornProps) => <div>
 export default makeUnicorn<KittenCornProps>(KittenCorn);
 ```
 
-### Annotating components wrapped by hoc by casting at export
+#### Annotating components wrapped by hoc by casting at export
 
 ```jsx
 // kittenCorn.js
@@ -460,7 +524,7 @@ export default (
 ```
 
 
-### Dealing with nested higher order components
+#### Dealing with nested higher order components
 
 ```jsx
 // gloryKittenCorn.js
@@ -495,17 +559,17 @@ export default (
 
 Spreading is tricky in Flow. To avoid complexity, using exact objects for component props is highly recommended.
 
-### Links
+#### Links
 
 - [HOCs as of 0.89.0](https://flow.org/en/docs/react/hoc/#toc-hocs-as-of-0-89-0)
 - [`React.AbstractComponent` docs](https://flow.org/en/docs/react/types/#toc-react-abstractcomponent)
 - [React Higher Order Components in Depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)
 
-## Annotating connected (with Redux) components
+### Annotating connected (with Redux) components
 
 To annotate React Redux's connected components, first be familiar with annotating higher order components using `React.AbstractComponent` (discussed in the previous section). 
 
-### Connecting stateless component with `mapStateToProps`
+#### Connecting stateless component with `mapStateToProps`
 
 ```jsx
 type OwnProps = {|  // use exact object for component props
@@ -531,7 +595,7 @@ const Connected = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(Com);
 export default connect()(MyComponent);
 ```
 
-### Connecting components with `mapDispatchToProps` of action creators
+#### Connecting components with `mapDispatchToProps` of action creators
 
 ```jsx
 type OwnProps = {|  // use exact object for component props
@@ -557,7 +621,7 @@ e.push(Connected);
 <Connected passthrough={123} />;
 ```
 
-### Connecting components with `mapStateToProps` and `mapDispatchToProps` of action creators
+#### Connecting components with `mapStateToProps` and `mapDispatchToProps` of action creators
 
 ```jsx
 type OwnProps = {|  // use exact object for component props
@@ -589,7 +653,7 @@ const mapDispatchToProps = {
 const Connected = connect<Props, OwnProps, _, _, _, _>(mapStateToProps, mapDispatchToProps)(Com);
 ```
 
-### Annotating nested higher order components with `connect`
+#### Annotating nested higher order components with `connect`
 
 
 If you are at the unfortunate position where your component is wrapped with nested higher order component, it is probably more difficult to annotate by providing explicit type parameters, as doing so will probably require that you tediously take away props at each layer. It is again easier to annotate at function return:
@@ -627,9 +691,9 @@ export default (compose(
 )(Component): React.AbstractComponent<OwnProps>)  // export the connected component without injected props
 ```
 
-# Advanced topics
+## Advanced topics
 
-## Tagging
+### Tagging
 
 Consider we have a function that takes an object that takes either a value or a function that generates a value. If the input is a generator, we run the generator to get the intended value. This is quite common as we often consider actions and action generators to produce the same semantic meaning.
 
@@ -705,21 +769,8 @@ function handle(mystery: TaggedStringType | TaggedNumberType) {
 
 Transported from an example in the book _Programming TypeScript_.
 
-# More Notes
-<!-- TODO: reorganize the following -->
 
-- React
-  - [React component types](./react/react-component-types.md)
-  - [`React.memo`](./react/react-memo.md)
-  - [`React.lazy`](./react/react-lazy.md)
-  - [Higher order components](./react/annotating-higher-order-components.md)
-  - [Connected components by React Redux](./react/annotating-connected-components.md)
-- Advanced
-  - [Callable properties and function statics](./advanced/callable-properties-and-function-statics.md)
-
-
-
-# Try Flow bookmarklets
+## Try Flow bookmarklets
 
 - [`React.Config` use case](https://flow.org/try/#0PQKgBAAgZgNg9gdzCYAoAlgWwA5wE4AuyYAhgM5gBKApiQMZFR5yZgDketDbA3KvwQCe2amACyggMItcAO2qyCABWbYKAXjABvVGFIAuMGQJ50sgOYAaXWABGh2QFdMt6nmt66h23DgxastYAvnx0cLLG4lIy4QpEmgAU2KpkhhLSOLGKKnBqAJRg6gB8YAA8ACboAG5FNlrJuWQAdCRBdQ1qTbZtevUpTXRtpcCVNXz8UI6yDOjhYAjoBAAWAGokpiQEsxGlSoZaQZZgK-tBRQk2AOp4JNgi5RlycYY09ARNAIK2xjcMj1kEXa1PKGFaFEqvBifb4mN7-eSKUoAEgAIugoFBdkcVkUSjo9JwCI48LIwAkqut0Jttjk1KCCsUbHpJtMtnN4XFLotVpTqeEyEkUoYlAV8XpxYTiaTStdbvcOYptE1lR0yEElcqKRs2bJaWqwMAinxxWAQqg2qgwhEiOkYgiCFzlh9CvNuWttdsyKVbZl7XqjloSIYfmZzGcEj6noo8glA4Y2EtqDB4GwgnlxtQAB64QhgcrUKAkRwwIgJBklCrVWoASG90V9nO5zpI6gARLI4ERE8m4K27OotABGACs6roA8LMDI1HVhtQw1GRSAA)
 - [Annotating memoized factorial function](https://flow.org/try/#0PTAEAEDMBsHsHcBQiAuBPADgU1AWSwLawCWAXlgCYBiAhgMYqwBOxN0AKpjgLygDeiUKDr0AFlgBc-QaACQAbQB2AVwIAjLEwC6Ules0yAvgBoZ8+SOjQtWgBR6NTAJS7Vj04eR1YigM4pQSHpGFjYpfCIySloGZlYOLlBeRSSAPmkhYkhQWwBCINjQ6AA6ETpxJwyhQOC4tlKxHn5PIRbQLJyCkPiG8qwlLVBc7l5lRQosSGJFSkqBatAmLBRlJhSuupKy8QGjGQ2i3p3FQeSkkdAABlAAflAARlBdUAAqGsL4+1AAWgenGSWKzW7269W2-ROiEMQA)
@@ -728,23 +779,9 @@ Transported from an example in the book _Programming TypeScript_.
 - [Cannot properly refine "T or generates T" type](https://flow.org/try/#0C4TwDgpgBAKg8gJwOIQHYQQQ2BAzjAHhgD4oBeKACkoEpzSY6AfWAbgCh2AzAV1QGNgASwD2qKMEwBrPIhTosOXHC4xwEIuuKVgALlhy0GbHkJrIxOgG92UKEK5VQkEY+DkyFAOS8BwsV7WtnZQ-GK4IgA2EAB0kSIA5jq0NBx2AL5QEJG40DYhoeFRsfFJwKnB6ezpQA)
 - [Spread v.s. &](https://flow.org/try/#0PQ0gEDyAuAWCmAnAzuAZgSwDbwFDQE8AHecAQXAF5wBvXccAQwC4mA7AgGlwF8BuXPmKkAQlXLgAZLXrgARq0Ydu-WbjBhwAWQLpseQiXABhcWOl0GAY0XLeA3GgCubK9AwB7NuAAqACktwK24GADpwokQPImReVmMAShkGSOjkULleXCA) @nutstick
 
-# Other resources
-
-- [typescript-vs-flowtype](https://github.com/niieani/typescript-vs-flowtype/)
-
 ## Guides
 
 - Upgrading Flow past 0.85, annotating connect
   - [Asking for Required Annotations](https://medium.com/flow-type/asking-for-required-annotations-64d4f9c1edf8)
   - [Quick Note Fixing `connect` FlowType Annotation after 0.89](https://dev.to/wgao19/quick-note-fixing-connect-flowtype-annotation-after-089-joi)
   - [Ville's and Jordan Brown's guide: _Adding Type Parameters to Connect_](https://gist.github.com/jbrown215/f425203ef30fdc8a28c213b90ba7a794)
-
-## Books
-
-- [Programming TypeScript](https://www.oreilly.com/library/view/programming-typescript/9781492037644/) A practical handbook on TypeScript that also explains the whys and hows behind static type checking well, see also [swyx](https://twitter.com/swyx)'s recommendation [tweet](https://twitter.com/swyx/status/1135525665971695617)
-
-# Contributing
-
-[Questions](https://github.com/wgao19/flow-notes/issues/new?assignees=&labels=question&template=question.md) are always welcome!
-
-Currently, I am still in the process of organizing my notes, after setting up an initial structure I'd like to invite more people to learn and share together.
