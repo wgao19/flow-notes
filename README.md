@@ -17,6 +17,7 @@ Table of contents
 
 [Part II – Study notes](#study-notes)
 ---
+(you should ignore this part and create your own)
 - [Basics](#basics)
   + [Objects](#objects)
   + [Functions](#functions)
@@ -79,6 +80,8 @@ _Even more_
 ---
 
 # Study notes
+
+_you should ignore this part and create your own_
 
 ## Basics
 
