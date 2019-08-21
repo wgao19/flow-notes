@@ -201,8 +201,8 @@ _This section is currently under work in progress._
 
 Because non-exact objects can have any properties other than defined, spreading objects yields the following behavior which may be counter-intuitive (but is reasonable with a bit of thoughts)
 
-- properties from spread becomes optional → because the object where the spread lands originally did not have it
-- properties before spread becomes mixed → receiving from the unknown
+- properties _from_ spread becomes optional → because currently only "own" properties are copied
+- properties _before_ spread becomes mixed → because the incoming inexact objects may contain more properties that may overwrite existing properties
 
 ```js
 type A = {
@@ -239,8 +239,19 @@ type MyKitty = {
 }
 ```
 
+Note
+
+After Flow v0.106, the two phenomena above are re-addressed differently:
+
+- the new model assumes inexact object types specify own-ness on specified properties, therefore spread properties will no longer be made optional, following the run time object spread more intuitively
+- properties before spread becomes mixed – because the incoming inexact objects may contain more properties that may overwrite existing properties, the new implementation will err, tell us what happens, and ask if we can make the incoming object exact
+
+![](https://i.imgur.com/8wCw4he.png)
+
 More about this:
 
+- [Coming Soon: Changes to Object Spreads](https://medium.com/flow-type/coming-soon-changes-to-object-spreads-73204aef84e1) Flow's blog article on object spread
+- [my TL;DR on the article above](https://twitter.com/wgao19/status/1164148132839489538) 
 - [facebook/flow#3534](https://github.com/facebook/flow/issues/3534)
 
 
