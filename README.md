@@ -9,10 +9,11 @@ Table of contents
 
 [Part I – Learning Flow](#learning-flow)
 ---
-+ [Learn Flow usages](#learn-flow-usages)
++ [Linked usages from tests](#learn-flow-usages)
   + [Flow's tests as examples](#flows-tests-as-examples)
   + [Flow Typed tests as examples](#flow-typed-tests-as-examples)
-+ [Understanding Flow](#understanding-flow)
++ [Understanding library definitions](#understanding-library-definitions)
++ [Learning materials](#understanding-flow)
 + [Advanced](#advanced)
 
 [Part II – Study notes](#study-notes)
@@ -49,6 +50,34 @@ _This section is a work in progress_
 ### [Flow Typed](https://github.com/flow-typed/flow-typed) tests as examples
 
 _This section is a work in progress_
+
+## Understanding library definitions
+
+To understand library definitions, first you'll need to understand the following concepts well, here are two articles that explain them:
+
+- variance: https://medium.com/@forbeslindesay/covariance-and-contravariance-c3b43d805611
+- overloading: https://github.com/wgao19/flow-notes/blob/master/advanced/callable-properties-and-function-statics.md
+
+Inside library definitions are type declarations. And specifically, they normally include:
+
+- functions
+- classes
+- type aliases
+
+What's not in the library definition files are the actual implementations of them. If you've taken CS classes, think about header files in C++. 
+
+To list a few examples from the libdefs of the libraries that we use:
+
+- [React libdef in Flow's repo](https://github.com/facebook/flow/blob/master/lib/react.js)
+- [React Router Dom from Flow-Typed](https://github.com/flow-typed/flow-typed/blob/master/definitions/npm/react-router-dom_v5.x.x/flow_v0.104.x-/react-router-dom_v5.x.x.js)
+- [React Redux](https://github.com/flow-typed/flow-typed/blob/master/definitions/npm/react-redux_v7.x.x/flow_v0.104.x-/react-redux_v7.x.x.js)
+
+What those libdefs normally look like is that
+
+- _very abbreviated function type parameters_ – we'd have to bear with it. They normally provide a dictionary in the beginning so we can use as reference.
+- multiple call signatures of functions and classes – this is understandable, because most libraries have multiple ways of calling function or constructors. i.e., React Redux's `connect` can be called with `mapState`, `mapDispatch`, both, or even more ways. Furthermore, depending on how the functions are called, they may return different results. Both of the above may be achieved with overloading, as you may read more in [this note](https://github.com/wgao19/flow-notes/blob/master/advanced/callable-properties-and-function-statics.md).
+- each call signatures are heavily marked by variance sigils – this is a powerful feature by Flow, it allows users to mark whether subtypes / supertypes may count as valid arguments supplied to the function parameters. If you don't like the [concepts of variance](https://flow.org/en/docs/lang/variance/), you can think of the sigils (the `+`s and `-`s) as read-only v.s. write-only, as well explained [in this article](https://medium.com/@forbeslindesay/covariance-and-contravariance-c3b43d805611).
+
 
 ## Understanding Flow
 
