@@ -87,8 +87,9 @@ What those libdefs normally look like is that
 
 _Videos_
 
-- [A Deep Dive Into Flow](https://www.youtube.com/embed/VEaDsKyDxkY)
-- [Flow: Static Type Systems At Scale](https://www.youtube.com/embed/M8x0bc81smU?start=765)
+- [Flow Reloaded New Challenges and New Opportunities](https://www.youtube.com/watch?v=WgvAPzOmiP0)
+- [Jeff Morrison - A Deepdive Into Flow at react-europe 2016](https://www.youtube.com/watch?v=VEaDsKyDxkY)
+- [Flow: Static Type Systems At Scale](https://www.youtube.com/embed/M8x0bc81smU)
 
 _Books_
 
